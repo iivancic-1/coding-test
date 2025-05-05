@@ -1,0 +1,9 @@
+<div class="flex flex-col gap-5">
+    <h1 class="text-xl">Import</h1>
+
+    <%= form_with url: "/import", local: true, html: { multipart: true } do |form| %>
+        <%= form.file_field :file, direct_upload: true, class: "border border-black rounded-sm" %>
+
+        <%= form.submit "Submit", class: "border-none rounded-md bg-black text-white ml-1 px-2 py-1" %>
+    <% end %>
+</div>

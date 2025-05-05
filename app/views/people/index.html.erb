@@ -1,0 +1,46 @@
+<div class="flex flex-col gap-5">
+    <h1 class="text-xl">Table</h1>
+    <%= search_form_for @q do |f| %>
+
+        <%# Search if the name field contains... %>
+        <%= f.label :first_name_or_last_name_or_species_or_gender_or_weapon_cont, "Search all:" %>
+        <%= f.search_field :first_name_or_last_name_or_species_or_gender_or_weapon_cont, class: "border rounded px-2 py-1"  %>
+
+        <%# Search if an associated articles.title starts with... %>
+        <%#= f.label :articles_title_start %>
+        <%#= f.search_field :articles_title_start %>
+
+        <%# Attributes may be chained. Search multiple attributes for one value... %>
+        <%#= f.label :name_or_description_or_email_or_articles_title_cont %>
+        <%#= f.search_field :name_or_description_or_email_or_articles_title_cont %>
+
+        <%= f.submit %>
+    <% end %>
+    <table class="w-full text-sm text-left border border-collapse">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <th class="px-3 py-2"><%= sort_link(@q, :first_name, "Name", default_order: :desc) %></th>
+            <th class="px-3 py-2"><%= sort_link(@q, :species, "Species", default_order: :desc) %></th>
+            <th class="px-3 py-2"><%= sort_link(@q, :gender, "Gender", default_order: :desc) %></th>
+            <th class="px-3 py-2"><%= sort_link(@q, :weapon, "Weapon", default_order: :desc) %></th>
+            <th class="px-3 py-2"><%= sort_link(@q, :vehicle, "Vehicle", default_order: :desc) %></th>
+            <th class="px-3 py-2"><%= sort_link(@q, 'affiliations.name', 'Affiliations', default_order: :asc) %></th>
+            <th class="px-3 py-2">Locations</th>
+        </thead>
+        <tbody>
+            <% @people.each do |person| %>
+                <tr class="border-b border-gray-200">
+                    <td class="px-3 py-2"><%= person.first_name %> <%= person.last_name.presence %></td>
+                    <td class="px-3 py-2"><%= person.species %></td>
+                    <td class="px-3 py-2"><%= person.gender %></td>
+                    <td class="px-3 py-2"><%= person.weapon.presence %></td>
+                    <td class="px-3 py-2"><%= person.vehicle.presence %></td>
+                    <td class="px-3 py-2"><%= person.affiliations.map(&:name).join(", ") %></td>
+                    <td class="px-3 py-2"><%= person.locations.map(&:name).join(", ") %></td>
+                
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <%= paginate @people %>
+
+</div>
